@@ -12,7 +12,7 @@
 
 //Motor config
 
-////////////////////////////////Current pchs teleop code 10/29/2013
+////////////////////////////////Current pchs teleop code 11/4/2013
 
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 #include "ButtonsDefs.h"  //Buttons definitions
