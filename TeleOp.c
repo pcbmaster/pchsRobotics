@@ -19,6 +19,7 @@
 
 const float MAX_JOYSTICK = 128.0;//used to scale joystick vectors out of 1
 float motorScale = 100; //variable to scale the max motor power that is tolerated
+float cLiftScale = .5;
 int servoPos = 90;// default servo position = 90 /255
 void initializeRobot()//initialize
 {
@@ -42,10 +43,10 @@ task main()
 		getJoystickSettings(joystick);
 		////////CUBE LIFT///////////
 		if(joystick.joy1_TopHat == pov_north){
-			motor[cLift] = 100;
+			motor[cLift] = 100 * cLiftScale;
 		}
 		else if(joystick.joy1_TopHat == pov_south){
-			motor[cLift] = -100;
+			motor[cLift] = -100 * cLiftScale;
 		}
 		else{
 			motor[cLift] = 0;
