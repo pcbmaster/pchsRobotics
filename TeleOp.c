@@ -18,7 +18,7 @@
 #include "ButtonsDefs.h"  //Buttons definitions
 
 const float MAX_JOYSTICK = 128.0;//used to scale joystick vectors out of 1
-float motorScale = 100; //variable to scale the max motor power that is tolerated
+float motorScale = 1.00; //variable to scale the max motor power that is tolerated
 float cLiftScale = .5;
 int servoPos = 90;// default servo position = 90 /255
 void initializeRobot()//initialize
@@ -27,7 +27,7 @@ void initializeRobot()//initialize
 }
 
 float scaleJoystick(int n){
-	return (n / MAX_JOYSTICK)	* motorScale; //scale the joysticks out of 100 rather than 128
+	return (n / MAX_JOYSTICK)	*  100 * motorScale; //scale the joysticks out of 100 rather than 128
 
 }
 
@@ -72,11 +72,11 @@ task main()
 		}
 		//put in a way to limit max motor power -- either 25% or 100%
 		if(joystick.joy1_Buttons == button_left_trigger ){
-			motorScale = 25;
+			motorScale = .25;
 
 		}
 		if(joystick.joy1_Buttons == button_right_trigger ){
-			motorScale = 100;
+			motorScale = 1.00;
 
 		}
 
