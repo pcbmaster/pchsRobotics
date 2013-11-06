@@ -65,9 +65,9 @@ task main()
 		// rotate left
 
 		if(joystick.joy1_Buttons == button_right_button){
-			motor[fr] = 100;
+			motor[fr] = -100;
 			motor[fl] = 100;
-			motor[br] = 100;
+			motor[br] = -100;
 			motor[bl] = 100;
 		}
 		//put in a way to limit max motor power -- either 25% or 100%
