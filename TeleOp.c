@@ -18,16 +18,20 @@
 #include "ButtonsDefs.h"  //Buttons definitions
 
 const float MAX_JOYSTICK = 128.0;//used to scale joystick vectors out of 1
-float motorScale = 1.00; //variable to scale the max motor power that is tolerated
-float cLiftScale = .5;
+bool half_power = false; //If true half motor power
 int servoPos = 90;// default servo position = 90 /255
 void initializeRobot()//initialize
 {
 	return;
 }
 
-float scaleJoystick(int n){
-	return (n / MAX_JOYSTICK)	*  100 * motorScale; //scale the joysticks out of 100 rather than 128
+int scaleJoystick(int n){
+	if(half_power){
+		return (n / MAX_JOYSTICK)	*  50; //scale the joysticks out of 100 rather than 128
+	}
+	else{
+		return (n / MAX_JOYSTICK)	*  100; //scale the joysticks out of 100 rather than 128
+	}
 
 }
 
@@ -43,10 +47,21 @@ task main()
 		getJoystickSettings(joystick);
 		////////CUBE LIFT///////////
 		if(joystick.joy1_TopHat == pov_north){
-			motor[cLift] = 100 * cLiftScale;
+			if(half_power){
+				motor[cLift] = 50;
+			}
+			else{
+				motor[cLift] = 100;
+			}
+
 		}
 		else if(joystick.joy1_TopHat == pov_south){
-			motor[cLift] = -100 * cLiftScale;
+			if(half_power){
+				motor[cLift] = -50;
+			}
+			else{
+				motor[cLift] = -100;
+			}
 		}
 		else{
 			motor[cLift] = 0;
@@ -72,11 +87,11 @@ task main()
 		}
 		//put in a way to limit max motor power -- either 25% or 100%
 		if(joystick.joy1_Buttons == button_left_trigger ){
-			motorScale = .25;
+			half_power = true;
 
 		}
 		if(joystick.joy1_Buttons == button_right_trigger ){
-			motorScale = 1.00;
+			half_power = false;
 
 		}
 
