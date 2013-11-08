@@ -12,13 +12,14 @@
 
 //Motor config
 
-////////////////////////////////Current pchs teleop code 11/4/2013
+////////////////////////////////Current pchs teleop code 11/8/2013
 
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 #include "ButtonsDefs.h"  //Buttons definitions
 
 const float MAX_JOYSTICK = 128.0;//used to scale joystick vectors out of 1
 bool half_power = false; //If true half motor power
+bool spinning = false;
 int servoPos = 90;// default servo position = 90 /255
 void initializeRobot()//initialize
 {
@@ -46,7 +47,7 @@ task main()
 	{
 		getJoystickSettings(joystick);
 		////////CUBE LIFT///////////
-		if(joystick.joy1_TopHat == pov_north){
+		/*if(joystick.joy1_TopHat == pov_north){
 			if(half_power){
 				motor[cLift] = 50;
 			}
@@ -68,22 +69,32 @@ task main()
 			motor[upDownR] = 0;
 			motor[upDownL] = 0;
 			////////////////////
-		}
+		}*/
 		//rotate left
 		if(joystick.joy1_Buttons == button_left_button){
+			if(!spinning){
 			motor[fr] = 100;
 			motor[fl] = -100;
 			motor[br] = 100;
 			motor[bl] = -100;
+			spinning = true;
+		}
 		}
 
 		// rotate left
 
-		if(joystick.joy1_Buttons == button_right_button){
+		else if(joystick.joy1_Buttons == button_right_button){
+			if(!spinning){
 			motor[fr] = -100;
 			motor[fl] = 100;
 			motor[br] = -100;
 			motor[bl] = 100;
+			spinning = true;
+		}
+		}
+
+		else{
+			spinning = false;
 		}
 		//put in a way to limit max motor power -- either 25% or 100%
 		if(joystick.joy1_Buttons == button_left_trigger ){
@@ -98,16 +109,19 @@ task main()
 		//end  max motor power scaling
 
 		//Start useless ultrasonic rotator function
-		if(joystick.joy1_TopHat == pov_east){
-			servoPos = servoPos + 1;
+		if(joystick.joy1_TopHat == pov_north){
+			motor[upDownR] = 100;
+			motor[upDownL] = 100;
 		}
-		if(joystick.joy1_TopHat == pov_west){
-			servoPos = servoPos - 1;
+		if(joystick.joy1_TopHat == pov_south){
+		motor[upDownR] = -100;
+		motor[upDownL] = -100;
 
 		}
-
-		motor[upDownL] = joystick.joy1_y2;
-		motor[upDownR] = joystick.joy1_y2;
+		else {
+			motor[upDownR] = 0;
+			motor[upDownL] = 0;
+		}
 
 		int y_vals = scaleJoystick(joystick.joy1_y1);
 		int x_vals = scaleJoystick(joystick.joy1_x1);
