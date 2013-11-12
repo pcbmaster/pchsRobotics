@@ -19,7 +19,6 @@
 
 const float MAX_JOYSTICK = 128.0;//used to scale joystick vectors out of 1
 bool half_power = false; //If true half motor power
-bool spinning = false;
 int servoPos = 90;// default servo position = 90 /255
 void initializeRobot()//initialize
 {
@@ -48,53 +47,50 @@ task main()
 		getJoystickSettings(joystick);
 		////////CUBE LIFT///////////
 		/*if(joystick.joy1_TopHat == pov_north){
-			if(half_power){
-				motor[cLift] = 50;
-			}
-			else{
-				motor[cLift] = 100;
-			}
+		if(half_power){
+		motor[cLift] = 50;
+		}
+		else{
+		motor[cLift] = 100;
+		}
 
 		}
 		else if(joystick.joy1_TopHat == pov_south){
-			if(half_power){
-				motor[cLift] = -50;
-			}
-			else{
-				motor[cLift] = -100;
-			}
+		if(half_power){
+		motor[cLift] = -50;
 		}
 		else{
-			motor[cLift] = 0;
-			motor[upDownR] = 0;
-			motor[upDownL] = 0;
-			////////////////////
+		motor[cLift] = -100;
+		}
+		}
+		else{
+		motor[cLift] = 0;
+		motor[upDownR] = 0;
+		motor[upDownL] = 0;
+		////////////////////
 		}*/
 		//rotate left
 		if(joystick.joy1_Buttons == button_left_button){
-			if(!spinning){
 			motor[fr] = 100;
 			motor[fl] = -100;
 			motor[br] = 100;
 			motor[bl] = -100;
-			spinning = true;
-		}
 		}
 
 		// rotate left
 
 		else if(joystick.joy1_Buttons == button_right_button){
-			if(!spinning){
 			motor[fr] = -100;
 			motor[fl] = 100;
 			motor[br] = -100;
 			motor[bl] = 100;
-			spinning = true;
-		}
 		}
 
 		else{
-			spinning = false;
+			motor[fr] = 0;
+			motor[fl] = 0;
+			motor[br] = 0;
+			motor[bl] = 0;
 		}
 		//put in a way to limit max motor power -- either 25% or 100%
 		if(joystick.joy1_Buttons == button_left_trigger ){
@@ -114,8 +110,8 @@ task main()
 			motor[upDownL] = 100;
 		}
 		else if(joystick.joy1_TopHat == pov_south){
-		motor[upDownR] = -100;
-		motor[upDownL] = -100;
+			motor[upDownR] = -100;
+			motor[upDownL] = -100;
 
 		}
 		else {
