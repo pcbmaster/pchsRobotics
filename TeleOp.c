@@ -12,7 +12,7 @@
 
 //Motor config
 
-////////////////////////////////Current pchs teleop code 11/8/2013
+////////////////////////////////Current pchs teleop code 11/8c/2013
 
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 #include "ButtonsDefs.h"  //Buttons definitions
@@ -113,7 +113,7 @@ task main()
 			motor[upDownR] = 100;
 			motor[upDownL] = 100;
 		}
-		if(joystick.joy1_TopHat == pov_south){
+		else if(joystick.joy1_TopHat == pov_south){
 		motor[upDownR] = -100;
 		motor[upDownL] = -100;
 
