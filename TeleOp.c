@@ -35,6 +35,10 @@ int scaleJoystick(int n){
 
 }
 
+void runMotorDZ(tMotor mot, int power){
+	motor[mot] = power;
+}
+
 
 task main()
 {
@@ -46,29 +50,17 @@ task main()
 	{
 		getJoystickSettings(joystick);
 		////////CUBE LIFT///////////
-		/*if(joystick.joy1_TopHat == pov_north){
-		if(half_power){
-		motor[cLift] = 50;
-		}
-		else{
-		motor[cLift] = 100;
-		}
+		if(joystick.joy1_TopHat == pov_east){
+			motor[cLift] = 100;
 
 		}
-		else if(joystick.joy1_TopHat == pov_south){
-		if(half_power){
-		motor[cLift] = -50;
+		else if(joystick.joy1_TopHat == pov_west){
+			motor[cLift] = -100;
 		}
 		else{
-		motor[cLift] = -100;
+			motor[cLift] = 0;
+			////////////////////
 		}
-		}
-		else{
-		motor[cLift] = 0;
-		motor[upDownR] = 0;
-		motor[upDownL] = 0;
-		////////////////////
-		}*/
 		//rotate left
 		if(joystick.joy1_Buttons == button_left_button){
 			motor[fr] = 100;
