@@ -5,7 +5,7 @@
 #pragma config(Motor,  mtr_S1_C1_1,     br,            tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C1_2,     fr,            tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C2_1,     bl,            tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C2_2,     fl,            tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C2_2,     fl,            tmotorTetrix, openLoop, reversed)
 #pragma config(Motor,  mtr_S1_C3_1,     chassisLiftA,  tmotorTetrix, openLoop, reversed)
 #pragma config(Motor,  mtr_S1_C3_2,     chassisLiftB,  tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C4_1,     blockLift,     tmotorTetrix, openLoop)
@@ -33,9 +33,11 @@ void initializeRobot()//initialize
 }
 
 int scaleJoystick(int n){
+	if(n < 20 && n > -20){
+		return 0;
+	}
 
 	return (n / MAX_JOYSTICK)	*  100; //scale the joysticks out of 100 rather than 128
-
 }
 
 
@@ -86,13 +88,6 @@ task main()
 			motor[br] = -100;
 			motor[bl] = 100;
 		}
-
-		else{
-			motor[fr] = 0;
-			motor[fl] = 0;
-			motor[br] = 0;
-			motor[bl] = 0;
-		}
 		//put in a way to limit max motor power -- either 25% or 100%
 		if(joystick.joy1_Buttons == button_left_trigger ){
 			driveIsAtHalfPower = true;
@@ -105,11 +100,11 @@ task main()
 		//end  max motor power scaling
 
 		//Lift the chassis
-		if(joystick.joy2_TopHat == pov_north){
+		if(joystick.joy1_TopHat == pov_east){
 			motor[chassisLiftA] = 100;
 			motor[chassisLiftB] = 100;
 		}
-		else if (joystick.joy2_TopHat == pov_south){
+		else if (joystick.joy1_TopHat == pov_west){
 			motor[chassisLiftA] = -100;
 			motor[chassisLiftB] = -100;
 		}
