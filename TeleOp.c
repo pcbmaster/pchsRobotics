@@ -45,6 +45,7 @@ task main()
 {
 	bool driveIsAtHalfPower = false; //If true half motor power UNIMPLEMENTED
 	bool sweeperIsOn = true;  //If true run sweeper motor
+	bool rotating = false;
 
 	int delta = 2;                        // Create int 'delta' to the be Servo Change Rate.
 
@@ -75,6 +76,7 @@ task main()
 
 		//rotate left
 		if(joystick.joy1_Buttons == button_left_button){
+			rotating = true;
 			motor[fr] = 100;
 			motor[fl] = -100;
 			motor[br] = 100;
@@ -82,7 +84,8 @@ task main()
 		}
 
 		// rotate right
-		else if(joystick.joy1_Buttons == button_right_button){
+		if(joystick.joy1_Buttons == button_right_button){
+			rotating = true;
 			motor[fr] = -100;
 			motor[fl] = 100;
 			motor[br] = -100;
@@ -151,12 +154,16 @@ task main()
 		int y_vals = scaleJoystick(joystick.joy1_y1);
 		int x_vals = scaleJoystick(joystick.joy1_x1);
 
-		///////////////Start derp math
-		motor[fl] = x_vals + y_vals;
-		motor[br] = x_vals + y_vals;
+		if(!rotating){
+			///////////////Start derp math
+			motor[fl] = x_vals + y_vals;
+			motor[br] = x_vals + y_vals;
 
-		motor[fr] = y_vals - x_vals;
-		motor[bl] = y_vals - x_vals;
-		/////////////////End derp math
+			motor[fr] = y_vals - x_vals;
+			motor[bl] = y_vals - x_vals;
+			/////////////////End derp math
+		}
+
+		rotating = false;
 	}
 }
