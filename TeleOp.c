@@ -130,25 +130,9 @@ task main()
 
 		//Servo dump block load
 		if(joystick.joy1_Buttons == button_x){
-			if(ServoValue[cubeLiftServo] < 128)              // If cubeLiftServo is closer to 0 (than 255):
-			{
-				while(ServoValue[cubeLiftServo] < 255)               // While the ServoValue of cubeLiftServo is less than 255:
-				{
-					servo[cubeLiftServo] = 255;                              // Move cubeLiftServo to position to 255.
-				}
-			}
-
-			wait1Msec(1000);                          // Wait 1 second.
-
-			if(ServoValue[cubeLiftServo] >= 128)             // If cubeLiftServo is closer to 255 (than 0):
-			{
-				while(ServoValue[cubeLiftServo] > 0)                 // While the ServoValue of cubeLiftServo is greater than 0:
-				{
-					servo[cubeLiftServo] = 0;                                // Move cubeLiftServo to position to 0.
-				}
-			}
-
-			wait1Msec(1000);                          // Wait 1 second.
+			servo[cubeLiftServo] = 85;
+			ClearTimer(T1);
+			servo[cubeLiftServo] = 0;
 		}
 
 		int y_vals = scaleJoystick(joystick.joy1_y1);
