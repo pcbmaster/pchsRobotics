@@ -44,8 +44,7 @@ int scaleJoystick(int n){
 task main()
 {
 	bool driveIsAtHalfPower = false; //If true half motor power UNIMPLEMENTED
-	bool sweeperIsOn = true;  //If true run sweeper motor
-	bool rotating = false;
+	bool sweeperIsOn = false;  //If true run sweeper motor
 
 	int delta = 2;                        // Create int 'delta' to the be Servo Change Rate.
 
@@ -73,24 +72,6 @@ task main()
 		else{
 			motor[sweeperMotor] = 0;
 		}
-
-		//rotate left
-		if(joystick.joy1_Buttons == button_left_button){
-			rotating = true;
-			motor[fr] = 100;
-			motor[fl] = -100;
-			motor[br] = 100;
-			motor[bl] = -100;
-		}
-
-		// rotate right
-		if(joystick.joy1_Buttons == button_right_button){
-			rotating = true;
-			motor[fr] = -100;
-			motor[fl] = 100;
-			motor[br] = -100;
-			motor[bl] = 100;
-		}
 		//put in a way to limit max motor power -- either 25% or 100%
 		if(joystick.joy1_Buttons == button_left_trigger ){
 			driveIsAtHalfPower = true;
@@ -103,11 +84,11 @@ task main()
 		//end  max motor power scaling
 
 		//Lift the chassis
-		if(joystick.joy1_TopHat == pov_east){
+		if(joystick.joy1_TopHat == pov_north){
 			motor[chassisLiftA] = 100;
 			motor[chassisLiftB] = 100;
 		}
-		else if (joystick.joy1_TopHat == pov_west){
+		else if (joystick.joy1_TopHat == pov_south){
 			motor[chassisLiftA] = -100;
 			motor[chassisLiftB] = -100;
 		}
@@ -118,10 +99,10 @@ task main()
 
 		//Control the block lift
 		//Implement touch sensor limit
-		if(joystick.joy1_TopHat == pov_north){
+		if(joystick.joy2_TopHat == pov_north){
 			motor[blockLift] = 100;
 		}
-		else if(joystick.joy1_TopHat == pov_south){
+		else if(joystick.joy2_TopHat == pov_south){
 			motor[blockLift] = -100;
 		}
 		else{
@@ -129,16 +110,34 @@ task main()
 		}
 
 		//Servo dump block load
-		if(joystick.joy1_Buttons == button_x){
-			servo[cubeLiftServo] = 85;
-			ClearTimer(T1);
-			servo[cubeLiftServo] = 0;
+		if(joystick.joy2_Buttons == button_x){
+			servo[cubeLiftServo] = ServoValue[cubeLiftServo] + 1;
+		}
+		else if(joystick.joy2_Buttons == button_y){
+			servo[cubeLiftServo] = ServoValue[cubeLiftServo] - 1;
 		}
 
 		int y_vals = scaleJoystick(joystick.joy1_y1);
 		int x_vals = scaleJoystick(joystick.joy1_x1);
 
-		if(!rotating){
+				//rotate left
+		if(joystick.joy1_Buttons == button_left_button){
+			motor[fr] = 100;
+			motor[fl] = -100;
+			motor[br] = 100;
+			motor[bl] = -100;
+		}
+
+		// rotate right
+		else if(joystick.joy1_Buttons == button_right_button){
+
+			motor[fr] = -100;
+			motor[fl] = 100;
+			motor[br] = -100;
+			motor[bl] = 100;
+	}
+
+		else{
 			///////////////Start derp math
 			motor[fl] = x_vals + y_vals;
 			motor[br] = x_vals + y_vals;
@@ -147,7 +146,5 @@ task main()
 			motor[bl] = y_vals - x_vals;
 			/////////////////End derp math
 		}
-
-		rotating = false;
 	}
 }
