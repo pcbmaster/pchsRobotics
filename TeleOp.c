@@ -2,11 +2,11 @@
 #pragma config(Hubs,  S2, HTServo,  none,     none,     none)
 #pragma config(Sensor, S1,     ,               sensorI2CMuxController)
 #pragma config(Sensor, S2,     ,               sensorI2CMuxController)
-#pragma config(Motor,  mtr_S1_C1_1,     br,            tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C1_2,     fr,            tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C2_1,     bl,            tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C2_2,     fl,            tmotorTetrix, openLoop, reversed)
-#pragma config(Motor,  mtr_S1_C3_1,     chassisLiftA,  tmotorTetrix, openLoop, reversed)
+#pragma config(Motor,  mtr_S1_C1_1,     fr,            tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C1_2,     br,            tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C2_1,     fl,            tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C2_2,     bl,            tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C3_1,     chassisLiftA,  tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C3_2,     chassisLiftB,  tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C4_1,     blockLift,     tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C4_2,     sweeperMotor,  tmotorTetrix, openLoop, reversed)
@@ -20,7 +20,7 @@
 
 //Motor config
 
-////////////////////////////////Current pchs teleop code 12/3/2013
+////////////////////////////////Current pchs teleop code 12/20/2013
 
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 #include "ButtonsDefs.h"  //Buttons definitions
@@ -56,95 +56,48 @@ task main()
 	{
 		getJoystickSettings(joystick);
 
-		servoChangeRate[cubeLiftServo] = delta;          // Slow the Servo Change Rate down to only 'delta' positions per update.
-
-		//toggle sweeper power
-		if(joystick.joy1_Buttons == button_a){
-			sweeperIsOn = true;
-		}
-		else if(joystick.joy1_Buttons == button_b){
-			sweeperIsOn = false;
-		}
-
-		if(sweeperIsOn){
-			motor[sweeperMotor] = 100;
-		}
-		else{
-			motor[sweeperMotor] = 0;
-		}
-		//put in a way to limit max motor power -- either 25% or 100%
-		if(joystick.joy1_Buttons == button_left_trigger ){
-			driveIsAtHalfPower = true;
-
-		}
-		if(joystick.joy1_Buttons == button_right_trigger ){
-			driveIsAtHalfPower = false;
-
-		}
-		//end  max motor power scaling
-
-		//Lift the chassis
+		//todo fix motor signs
 		if(joystick.joy1_TopHat == pov_north){
-			motor[chassisLiftA] = 100;
-			motor[chassisLiftB] = 100;
+			motor[fr] = 100;
+			motor[fl] = 100;
+			motor[br] = -100;
+			motor[bl] = -100;
 		}
-		else if (joystick.joy1_TopHat == pov_south){
-			motor[chassisLiftA] = -100;
-			motor[chassisLiftB] = -100;
+		else if(joystick.joy1_TopHat == pov_south){
+			motor[fr] = -100;
+			motor[fl] = -100;
+			motor[br] = 100;
+			motor[bl] = 100;
 		}
-		else{
-			motor[chassisLiftA] = 0;
-			motor[chassisLiftB] = 0;
+		else if(joystick.joy1_TopHat == pov_east){
+			motor[fr] = 100;
+			motor[fl] = 100;
+			motor[br] = 100;
+			motor[bl] = 100;
 		}
-
-		//Control the block lift
-		//Implement touch sensor limit
-		if(joystick.joy2_TopHat == pov_north){
-			motor[blockLift] = 100;
+		else if(joystick.joy1_TopHat == pov_west){
+			motor[fr] = -100;
+			motor[fl] = -100;
+			motor[br] = -100;
+			motor[bl] = -100;
 		}
-		else if(joystick.joy2_TopHat == pov_south){
-			motor[blockLift] = -100;
-		}
-		else{
-			motor[blockLift] = 0;
-		}
-
-		//Servo dump block load
-		if(joystick.joy2_Buttons == button_x){
-			servo[cubeLiftServo] = ServoValue[cubeLiftServo] + 1;
-		}
-		else if(joystick.joy2_Buttons == button_y){
-			servo[cubeLiftServo] = ServoValue[cubeLiftServo] - 1;
-		}
-
-		int y_vals = scaleJoystick(joystick.joy1_y1);
-		int x_vals = scaleJoystick(joystick.joy1_x1);
-
-				//rotate left
-		if(joystick.joy1_Buttons == button_left_button){
+		else if(joystick.joy1_Buttons == button_left_trigger){
 			motor[fr] = 100;
 			motor[fl] = -100;
+			motor[br] = -100;
+			motor[bl] = 100;
+		}
+		else if(joystick.joy1_Buttons == button_right_trigger){
+			motor[fr] = -100;
+			motor[fl] = 100;
 			motor[br] = 100;
 			motor[bl] = -100;
 		}
-
-		// rotate right
-		else if(joystick.joy1_Buttons == button_right_button){
-
-			motor[fr] = -100;
-			motor[fl] = 100;
-			motor[br] = -100;
-			motor[bl] = 100;
-	}
-
 		else{
-			///////////////Start derp math
-			motor[fl] = x_vals + y_vals;
-			motor[br] = x_vals + y_vals;
-
-			motor[fr] = y_vals - x_vals;
-			motor[bl] = y_vals - x_vals;
-			/////////////////End derp math
+			motor[fr] = 0;
+			motor[fl] = 0;
+			motor[br] = 0;
+			motor[bl] = 0;
 		}
 	}
 }
