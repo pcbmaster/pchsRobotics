@@ -6,12 +6,12 @@
 #pragma config(Motor,  mtr_S1_C1_2,     br,            tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C2_1,     fl,            tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C2_2,     bl,            tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C3_1,     chassisLiftA,  tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C3_2,     chassisLiftB,  tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C3_1,     liftA,         tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C3_2,     liftB,         tmotorTetrix, openLoop, reversed)
 #pragma config(Motor,  mtr_S1_C4_1,     blockLift,     tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C4_2,     sweeperMotor,  tmotorTetrix, openLoop, reversed)
-#pragma config(Servo,  srvo_S2_C1_1,    cubeLiftServo,        tServoStandard)
-#pragma config(Servo,  srvo_S2_C1_2,    servo2,               tServoNone)
+#pragma config(Servo,  srvo_S2_C1_1,    cubeLiftServoA,       tServoStandard)
+#pragma config(Servo,  srvo_S2_C1_2,    cubeLiftServoB,       tServoStandard)
 #pragma config(Servo,  srvo_S2_C1_3,    servo3,               tServoNone)
 #pragma config(Servo,  srvo_S2_C1_4,    servo4,               tServoNone)
 #pragma config(Servo,  srvo_S2_C1_5,    servo5,               tServoNone)
@@ -43,10 +43,6 @@ int scaleJoystick(int n){
 
 task main()
 {
-	bool driveIsAtHalfPower = false; //If true half motor power UNIMPLEMENTED
-	bool sweeperIsOn = false;  //If true run sweeper motor
-
-	int delta = 2;                        // Create int 'delta' to the be Servo Change Rate.
 
 	initializeRobot();
 
@@ -99,5 +95,33 @@ task main()
 			motor[br] = 0;
 			motor[bl] = 0;
 		}
+
+		if(joystick.joy1_Buttons == button_y){
+			motor[liftA] = 100;
+			motor[liftB] = 100;
+		}
+		else if(joystick.joy1_Buttons == button_a){
+			motor[liftA] = -100;
+			motor[liftB] = -100;
+		}
+		else{
+			motor[liftA] = 0;
+			motor[liftB] = 0;
+		}
+
+		//if(ServoValue[cubeLiftServoB] + 1 < 62){
+			if(joystick.joy1_Buttons == button_x){
+				servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] + 1;
+				servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] - 1;
+				wait1Msec(5);
+			}
+			else if(joystick.joy1_Buttons == button_b){
+				servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] - 1;
+				servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] + 1;
+				wait1Msec(5);
+			}
+		//}
+		nxtDisplayCenteredBigTextLine(0, "%d", ServoValue[cubeLiftServoA]);
+		nxtDisplayCenteredBigTextLine(1, "%d", ServoValue[cubeLiftServoB]);
 	}
 }
