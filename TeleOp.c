@@ -19,7 +19,7 @@
 #pragma config(Motor,  mtr_S4_C1_1,     liftA,         tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S4_C1_2,     liftB,         tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S4_C2_1,     sweeper,        tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S4_C2_2,     motorQ,        tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C2_2,     spinner,        tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S2_C1_1,    cubeLiftServoA,       tServoStandard)
 #pragma config(Servo,  srvo_S2_C1_2,    cubeLiftServoB,       tServoStandard)
 #pragma config(Servo,  srvo_S2_C1_3,    servo3,               tServoNone)
@@ -106,11 +106,21 @@ task main()
 			motor[bl] = 0;
 		}
 
-		if(joystick.joy1_Buttons == button_y){
+		if(joystick.joy1_Buttons == button_a){
+				motor[spinner] = 100;
+		}
+		else if(joystick.joy1_Buttons == button_b){
+				motor[spinner] = -100;
+		}
+		else{
+			motor[spinner] = 0;
+		}
+
+		if(joystick.joy2_TopHat == pov_north){
 			motor[liftA] = 100;
 			motor[liftB] = 100;
 		}
-		else if(joystick.joy1_Buttons == button_a){
+		else if(joystick.joy2_TopHat == pov_south){
 			motor[liftA] = -100;
 			motor[liftB] = -100;
 		}
@@ -118,16 +128,23 @@ task main()
 			motor[liftA] = 0;
 			motor[liftB] = 0;
 		}
-		
-		motor[sweeper] = joystick.joy1_y2 / 128.0 * 100;
+
+		if(joystick.joy2_Buttons == button_a){
+			motor[sweeper] = 50;
+		}
+		else if(joystick.joy2_Buttons == button_b){
+			motor[sweeper] = -50;
+		} else{
+			motor[sweeper] = 0;
+		}
 
 		//if(ServoValue[cubeLiftServoB] + 1 < 62){
-			if(joystick.joy1_Buttons == button_x){
+			if(joystick.joy2_TopHat == pov_east && ServoValue[cubeLiftServoB] > 101){
 				servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] + 1;
 				servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] - 1;
 				wait1Msec(5);
 			}
-			else if(joystick.joy1_Buttons == button_b){
+			if(joystick.joy2_TopHat == pov_west){
 				servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] - 1;
 				servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] + 1;
 				wait1Msec(5);
