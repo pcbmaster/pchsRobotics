@@ -48,6 +48,7 @@ task main()
 	initializeRobot();
 
 	bool running = false;
+	bool sluttyrunning = false;
 	waitForStart();   // wait for start of tele-op phase
 
 	while (true)
