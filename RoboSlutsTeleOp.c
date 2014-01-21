@@ -1,4 +1,4 @@
-#pragma config(Hubs,  S1, HTMotor,  HTMotor,  HTMotor,  none)
+#pragma config(Hubs,  S1, HTMotor,  HTMotor,  HTMotor,  HTMotor)
 #pragma config(Hubs,  S2, HTServo,  none,     none,     none)
 #pragma config(Sensor, S1,     ,               sensorI2CMuxController)
 #pragma config(Sensor, S2,     ,               sensorI2CMuxController)
@@ -8,6 +8,8 @@
 #pragma config(Motor,  mtr_S1_C2_2,     bl,            tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C3_1,     lift,          tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C3_2,     sweeper,       tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C4_1,     drawer,        tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C4_2,     spinny,        tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S2_C1_1,    Tilt1,                tServoStandard)
 #pragma config(Servo,  srvo_S2_C1_2,    Tilt2,                tServoStandard)
 #pragma config(Servo,  srvo_S2_C1_3,    servo3,               tServoNone)
@@ -128,6 +130,29 @@ task main()
 			servo[Tilt1] = 0;
 			servo[Tilt2] = 0;
 		}
+
+		if(joystick.joy2_Buttons == pov_north){
+			motor[drawer] = 100;
+		}
+		else if(joystick.joy2_Buttons == pov_south){
+			motor[drawer] = -100;
+		}
+
+		else{
+			motor[drawer] = 0;
+		}
+
+		if(joystick.joy2_Buttons == button_a){
+			sluttyrunning = !sluttyrunning;
+		}
+
+		if(sluttyrunning){
+			motor[spinny] = 100;
+		}
+		else{
+			motor[spinny] = 0;
+		}
+
 
 	}
 }
