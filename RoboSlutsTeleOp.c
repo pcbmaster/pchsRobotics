@@ -2,12 +2,12 @@
 #pragma config(Hubs,  S2, HTServo,  none,     none,     none)
 #pragma config(Sensor, S1,     ,               sensorI2CMuxController)
 #pragma config(Sensor, S2,     ,               sensorI2CMuxController)
-#pragma config(Motor,  mtr_S1_C1_1,     fr,            tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C1_1,     fr,            tmotorTetrix, openLoop, reversed)
 #pragma config(Motor,  mtr_S1_C1_2,     br,            tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C2_1,     fl,            tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C2_2,     bl,            tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C3_1,     lift,          tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C3_2,     sweeper,       tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C2_2,     bl,            tmotorTetrix, openLoop, reversed)
+#pragma config(Motor,  mtr_S1_C3_1,     sweeper,       tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C3_2,     lift,          tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C4_1,     drawer,        tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C4_2,     spinny,        tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S2_C1_1,    Tilt1,                tServoStandard)
@@ -101,11 +101,9 @@ task main()
 
 		if(joystick.joy1_Buttons == button_right_button){
 			motor[lift] = 100;
-			motor[sweeper] = -75;
 		}
 		else if(joystick.joy1_Buttons == button_left_button){
 			motor[lift] = -100;
-			motor[sweeper] = -75;
 		}
 		else{
 			motor[lift] = 0;
