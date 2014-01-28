@@ -2,10 +2,6 @@
 #pragma config(Hubs,  S2, HTServo,  none,     none,     none)
 #pragma config(Hubs,  S3, HTMotor,  none,     none,     none)
 #pragma config(Hubs,  S4, HTMotor,  HTMotor,  none,     none)
-#pragma config(Sensor, S1,     ,               sensorI2CMuxController)
-#pragma config(Sensor, S2,     ,               sensorI2CMuxController)
-#pragma config(Sensor, S3,     ,               sensorI2CMuxController)
-#pragma config(Sensor, S4,     ,               sensorI2CMuxController)
 #pragma config(Motor,  mtr_S1_C1_1,     fr,            tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C1_2,     br,            tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C2_1,     fl,            tmotorTetrix, openLoop)
@@ -150,7 +146,5 @@ task main()
 				wait1Msec(5);
 			}
 		//}
-		nxtDisplayCenteredBigTextLine(0, "%d", ServoValue[cubeLiftServoA]);
-		nxtDisplayCenteredBigTextLine(1, "%d", ServoValue[cubeLiftServoB]);
 	}
 }
