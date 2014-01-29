@@ -22,100 +22,86 @@ int maxpow = 100.0;
 void initializeRobot()
 {
 
-  return;
+	return;
 }
 
 task main()
 {
-  initializeRobot();
+	initializeRobot();
 
-  waitForStart();   // wait for start of tele-op phase
+	waitForStart();   // wait for start of tele-op phase
 
-  while (true)
-  {
-	  float x;
-	  float y;
-	  getJoystickSettings(joystick);
-	  if(joystick.joy1_Buttons == button_right_trigger){
-  	motor[fl] = 100;
-	  motor[fr] = -100;
-	  motor[bl] = 100;
-	  motor[br] =-100;
+	float x;
+	float y;
 
-}
-else if(joystick.joy1_Buttons == button_left_trigger){
-  	motor[fl] = -100;
-	  motor[fr] = 100;
-	  motor[bl] = -100;
-	  motor[br] = 100;
+	while (true)
+	{
+		getJoystickSettings(joystick);
 
-}
-else{
-	  x = ((joystick.joy1_x1/128.0)*maxpow);
-	  y = ((joystick.joy1_y1/128.0)*maxpow);
-	  motor[fl] = x+y;
-	  motor[fr] = y-x;
-	  motor[bl] = y-x;
-	  motor[br] = x+y;
+		x = ((joystick.joy1_x1/128.0)*maxpow);
+		y = ((joystick.joy1_y1/128.0)*maxpow);
 
-}
-if(joystick.joy1_TopHat == pov_north){
-servo[lift1] = servoValue[lift1] -1;
-servo[lift2] = servoValue[lift2] +1;
-}
-if(joystick.joy1_TopHat == pov_south){
-servo[lift1] = servoValue[lift1] +1;
-servo[lift2] = servoValue[lift2] -1;
-}
+		motor[fl] = x+y;
+		motor[fr] = y-x;
+		motor[bl] = y-x;
+		motor[br] = x+y;
+		if(joystick.joy1_TopHat == pov_north){
+			servo[lift1] = ServoValue[lift1] -1;
+			servo[lift2] = ServoValue[lift2] +1;
+		}
+		if(joystick.joy1_TopHat == pov_south){
+			servo[lift1] = ServoValue[lift1] +1;
+			servo[lift2] = ServoValue[lift2] -1;
+		}
 
-if(joystick.joy1_Buttons == button_left_button){
-maxpow = 25.0;	
-}
-if(joystick.joy1_Buttons == button_right_button){
-maxpow = 100.0;	
-}
-if(joystick.joy2_Buttons == button_left_button){
-	
-motor[lift] = -100;
-}
-else if(joystick.joy2_Buttons == button_right_button){
-	
-motor[lift] = 100;
-}
-else{
-	motor[lift] = 0;
-}
+		if(joystick.joy1_Buttons == button_left_button){
+			maxpow = 25.0;
+		}
+		if(joystick.joy1_Buttons == button_right_button){
+			maxpow = 100.0;
+		}
+		if(joystick.joy2_Buttons == button_left_button){
 
-if(joystick.joy2_Buttons == button_b){
-motor[sweeper] = -100;	
-}
-else if(joystick.joy2_Buttons == button_x){
-motor[sweeper] = 100;	
-}
-else{
-	motor[sweeper] = 0;
-}
+			motor[lift] = -100;
+		}
+		else if(joystick.joy2_Buttons == button_right_button){
 
-if(joystick.joy2_TopHat == pov_north){
-motor[drawer] = 100;	
-}
-else if(joystick.joy2_TopHat == pov_south){
-motor[drawer] = -100;	
-}
-else{
-	motor[drawer] = 0;
-}
+			motor[lift] = 100;
+		}
+		else{
+			motor[lift] = 0;
+		}
 
-if(joystick.joy2_Buttons == button_y){
-motor[spinner] = 100;
+		if(joystick.joy2_Buttons == button_b){
+			motor[sweeper] = -100;
+		}
+		else if(joystick.joy2_Buttons == button_x){
+			motor[sweeper] = 100;
+		}
+		else{
+			motor[sweeper] = 0;
+		}
 
-}
-else if(joystick.joy2_Buttons == button_a){
-motor[spinner] = -100;
-}
-else{
-motor[spinner] = 0;
-}
+		if(joystick.joy2_TopHat == pov_north){
+			motor[drawer] = 100;
+		}
+		else if(joystick.joy2_TopHat == pov_south){
+			motor[drawer] = -100;
+		}
+		else{
+			motor[drawer] = 0;
+		}
 
-}
+		if(joystick.joy2_Buttons == button_y){
+			motor[spinner] = 100;
+
+		}
+		else if(joystick.joy2_Buttons == button_a){
+			motor[spinner] = -100;
+		}
+		else{
+			motor[spinner] = 0;
+		}
+
+	}
 }
