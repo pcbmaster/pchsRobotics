@@ -81,13 +81,13 @@ task main()
 			motor[br] = -100;
 			motor[bl] = -100;
 		}
-		else if(joystick.joy1_Buttons == button_left_trigger){
+		else if(joystick.joy1_Buttons == button_right_trigger){
 			motor[fr] = 100;
 			motor[fl] = -100;
 			motor[br] = -100;
 			motor[bl] = 100;
 		}
-		else if(joystick.joy1_Buttons == button_right_trigger){
+		else if(joystick.joy1_Buttons == button_left_trigger){
 			motor[fr] = -100;
 			motor[fl] = 100;
 			motor[br] = 100;
