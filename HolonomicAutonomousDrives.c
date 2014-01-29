@@ -1,7 +1,7 @@
 #pragma systemFile
 #pragma once
 
-void turnLeft(int time_ms){
+void driveLeft(int time_ms){
 	motor[fr] = 100;
 	motor[fl] = 100;
 	motor[br] = 100;
@@ -13,7 +13,7 @@ void turnLeft(int time_ms){
 	motor[bl] = 0;
 }
 
-void turnRight(int time_ms){
+void driveRight(int time_ms){
 	motor[fr] = -100;
 	motor[fl] = -100;
 	motor[br] = -100;

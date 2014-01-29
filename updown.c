@@ -21,35 +21,22 @@
 #pragma config(Servo,  srvo_S2_C1_5,    servo5,               tServoNone)
 #pragma config(Servo,  srvo_S2_C1_6,    servo6,               tServoNone)
 
-#include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
-#include "HolonomicAutonomousDrives.c"
-
-void initializeRobot()
-{
-	servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] - 16;
-	servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] + 16;
-
-	wait1Msec(50);
-
-	return;
-}
-
-
 task main()
 {
-	initializeRobot();
-
-	//waitForStart(); // Wait for the beginning of autonomous phase.
-
-	PlaySound(soundBeepBeep);
-
-	//- = up
-
-	motor[liftA] = -100;
-	motor[liftB] = -100;
-	wait1Msec(2500);
-	motor[liftA] = 0;
-	motor[liftB] = 0;
-
-	//driveRight(2700);
+	while (true){
+		if(nNxtButtonPressed == 1)                        // if the current pressed button is 1 (the Right Arrow):
+		{
+			motor[liftA] = 100;
+			motor[liftB] = 100;
+		}
+		else if(nNxtButtonPressed == 2)                        // if the current pressed button is 2 (the left Arrow):
+		{
+			motor[liftA] = -100;
+			motor[liftB] = -100;
+		}
+		else{
+			motor[liftA] = 0;
+			motor[liftB] = 0;
+		}
+	}
 }
