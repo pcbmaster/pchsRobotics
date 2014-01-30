@@ -32,8 +32,8 @@ void initializeRobot()
 
 	wait1Msec(500);
 
-	servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] - 26;
-	servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] + 26;
+	servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] - 36;
+	servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] + 36;
 
 	wait1Msec(500);
 
@@ -44,7 +44,7 @@ task main()
 {
 	initializeRobot();
 
-	//waitForStart(); // Wait for the beginning of autonomous phase.
+	waitForStart(); // Wait for the beginning of autonomous phase.
 
 	PlaySound(soundBeepBeep);
 
@@ -58,8 +58,8 @@ task main()
 
 	driveForward(1200);
 
-	servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] + 76;
-	servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] - 76;
+	servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] + 86;
+	servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] - 86;
 
 	wait1Msec(1000);
 
@@ -67,7 +67,8 @@ task main()
 
 	driveBackward(500);
 
-	driveLeft(1500);
-	driveForward(1600);
-	driveRight(1900);
+	driveLeft(1800);
+	driveForward(1300);
+	rotate(800, false);
+	driveForward(2100);
 }
