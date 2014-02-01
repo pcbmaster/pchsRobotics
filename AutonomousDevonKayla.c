@@ -49,10 +49,10 @@
 
 void initializeRobot()
 {
-  // Place code here to sinitialize servos to starting positions.
-  // Sensors are automatically configured and setup by ROBOTC. They may need a brief time to stabilize.
+	// Place code here to sinitialize servos to starting positions.
+	// Sensors are automatically configured and setup by ROBOTC. They may need a brief time to stabilize.
 
-  return;
+	return;
 }
 
 
@@ -77,18 +77,49 @@ void initializeRobot()
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+task pinkPanther(){
+	while (true){
+		PlayTone(621, 22); while(bSoundActive);
+		PlayTone(656, 22); while(bSoundActive);
+		wait1Msec(830);
+		PlayTone(738, 22); while(bSoundActive);
+		PlayTone(788, 22); while(bSoundActive);
+		wait1Msec(830);
+		PlayTone(621, 22); while(bSoundActive);
+		PlayTone(656, 22); while(bSoundActive);
+		wait1Msec(220);
+		PlayTone(738, 22); while(bSoundActive);
+		PlayTone(788, 22); while(bSoundActive);
+		wait1Msec(220);
+		PlayTone(1054, 22); while(bSoundActive);
+		PlayTone(987, 22); while(bSoundActive);
+		wait1Msec(220);
+		PlayTone(621, 22); while(bSoundActive);
+		PlayTone(656, 22); while(bSoundActive);
+		wait1Msec(220);
+		PlayTone(987, 22); while(bSoundActive);
+		PlayTone(929, 125); while(bSoundActive);
+		wait1Msec(220);
+		PlayTone(877, 22); while(bSoundActive);
+		PlayTone(788, 22); while(bSoundActive);
+		PlayTone(656, 22); while(bSoundActive);
+		PlayTone(590, 22); while(bSoundActive);
+		PlayTone(656, 83); while(bSoundActive);
+	}
+}
+
+
 task main()
 {
-  initializeRobot();
+	initializeRobot();
 
-  //waitForStart(); // Wait for the beginning of autonomous phase.
-  
-  driveForward(1100);
-  
-  rotate(135,true);
-  
-  driveForward(2500);
-  
+	waitForStart(); // Wait for the beginning of autonomous phase.
 
+	driveForward(1100);
 
+	rotate(135,true);
+
+	driveForward(2500);
+
+	while (true);
 }
