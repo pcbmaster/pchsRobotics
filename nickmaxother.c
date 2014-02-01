@@ -91,29 +91,14 @@ task main()
 	motor[bl] = 0;
 	motor[br] = 0;
 
-	ClearTimer(T1);
-
-	while(SensorValue[irseek] != 5 || time1[T1] > 7500){
-		if(SensorValue[irseek] < 5){
-			left = true;
-			motor[fr] = -100;
-			motor[fl] = -75;
-			motor[br] = -50;
-			motor[bl] = 60;
-		}
-		else if(1 == 2){
-			left = false;
-			motor[fr] = 100;
-			motor[fl] = 75;
-			motor[br] = 50;
-			motor[bl] = -60;
-		}
+	while(SensorValue[irseek] != 5){
+		motor[fr] = -100;
+		motor[fl] = -75;
+		motor[br] = -50;
+		motor[bl] = 60;
 	}
 
-	motor[fr] = -100;
-	motor[fl] = -75;
-	motor[br] = -50;
-	motor[bl] = 60;
+	PlaySound(soundBeepBeep);
 
 	wait1Msec(330);
 
@@ -168,7 +153,7 @@ task main()
 	motor[bl] = 100;
 	motor[br] = -100;
 
-	wait1Msec(1600);
+	wait1Msec(2000);
 
 	motor[fl] = -100;
 	motor[bl] = -100;
@@ -194,7 +179,7 @@ task main()
 	motor[bl] = 100;
 	motor[br] = -100;
 
-	wait1Msec(2000);
+	wait1Msec(2200);
 
 	motor[fl] = 0;
 	motor[fr] = 0;
