@@ -24,6 +24,8 @@
 int highAValue;
 int highBValue;
 
+bool left;
+
 void initializeRobot()
 {
 	return;
@@ -33,7 +35,7 @@ task main()
 	int highAValue, highBValue;
 	initializeRobot();
 
-	//waitForStart(); // Wait for the beginning of autonomous phase.
+	waitForStart(); // Wait for the beginning of autonomous phase.
 	for(int i = 0; i < 3; i++){
 		motor[sweeper] = -76;
 		wait1Msec(380);
@@ -82,32 +84,52 @@ task main()
 	motor[bl] = 100;
 	motor[br] = -100;
 
-	wait1Msec(700);
-
-	motor[fl] = 0;
-	motor[fr] = 0;
-	motor[bl] = 0;
-	motor[br] = 0;
-
-	while(SensorValue[irseek] != 5){
-		motor[fr] = -100;
-		motor[fl] = -75;
-		motor[br] = -60;
-		motor[bl] = 75;
-	}
-
 	wait1Msec(500);
 
+	motor[fl] = 0;
+	motor[fr] = 0;
+	motor[bl] = 0;
+	motor[br] = 0;
+
+	ClearTimer(T1);
+
+	while(SensorValue[irseek] != 5 || time1[T1] > 7500){
+		if(SensorValue[irseek] < 5){
+			left = true;
+			motor[fr] = -100;
+			motor[fl] = -75;
+			motor[br] = -50;
+			motor[bl] = 60;
+		}
+		else if(1 == 2){
+			left = false;
+			motor[fr] = 100;
+			motor[fl] = 75;
+			motor[br] = 50;
+			motor[bl] = -60;
+		}
+	}
+
+	motor[fr] = -100;
+	motor[fl] = -75;
+	motor[br] = -50;
+	motor[bl] = 60;
+
+	wait1Msec(330);
+
 	motor[fr] = 0;
 	motor[fl] = 0;
 	motor[br] = 0;
 	motor[bl] = 0;
+
+	motor[sweeper] = -30;
 
 	motor[liftA] = 100;
 	motor[liftB] = 100;
 	wait1Msec(2800);
 	motor[liftA] = 0;
 	motor[liftB] = 0;
+	motor[sweeper] = 0;
 
 
 	motor[fl] = 100;
@@ -115,7 +137,7 @@ task main()
 	motor[bl] = 100;
 	motor[br] = -100;
 
-	wait1Msec(1100);
+	wait1Msec(470);
 
 	motor[fl] = 0;
 	motor[fr] = 0;
@@ -127,4 +149,55 @@ task main()
 
 	wait1Msec(1000);
 
+	motor[fl] = -100;
+	motor[fr] = -100;
+	motor[bl] = -100;
+	motor[br] = 100;
+
+	wait1Msec(500);
+
+	motor[fr] = -100;
+	motor[fl] = -75;
+	motor[br] = -50;
+	motor[bl] = 60;
+
+	wait1Msec(3300);
+
+	motor[fl] = 100;
+	motor[fr] = 100;
+	motor[bl] = 100;
+	motor[br] = -100;
+
+	wait1Msec(1600);
+
+	motor[fl] = -100;
+	motor[bl] = -100;
+	motor[fr] = 100;
+	motor[br] = -25;
+
+	wait1Msec(1200);
+
+	motor[fl] = 0;
+	motor[fr] = 0;
+	motor[bl] = 0;
+	motor[br] = 0;
+
+	motor[liftA] = -100;
+	motor[liftB] = -100;
+	wait1Msec(1800);
+	motor[liftA] = 0;
+	motor[liftB] = 0;
+
+
+	motor[fl] = 100;
+	motor[fr] = 100;
+	motor[bl] = 100;
+	motor[br] = -100;
+
+	wait1Msec(2000);
+
+	motor[fl] = 0;
+	motor[fr] = 0;
+	motor[bl] = 0;
+	motor[br] = 0;
 }
