@@ -115,6 +115,8 @@ task main()
 
 	waitForStart(); // Wait for the beginning of autonomous phase.
 
+	//StartTask(pinkPanther);
+
 	driveForward(1100);
 
 	rotate(135,true);

@@ -41,10 +41,31 @@ task main()
 		x = ((joystick.joy1_x1/128.0)*maxpow);
 		y = ((joystick.joy1_y1/128.0)*maxpow);
 
-		motor[fl] = x+y;
-		motor[fr] = y-x;
-		motor[bl] = y-x;
-		motor[br] = x+y;
+		if(x > 10 || x < -10 || y > 10 || y < -10){
+			motor[fl] = x+y;
+			motor[fr] = y-x;
+			motor[bl] = y-x;
+			motor[br] = x+y;
+		}
+		else if(joystick.joy1_Buttons == button_right_trigger){
+			motor[fr] = 100;
+			motor[fl] = -100;
+			motor[br] = 100;
+			motor[bl] = -100;
+		}
+		else if(joystick.joy1_Buttons == button_left_trigger){
+			motor[fr] = -100;
+			motor[fl] = 100;
+			motor[br] = -100;
+			motor[bl] = 100;
+		}
+		else{
+			motor[fr] = 0;
+			motor[fl] = 0;
+			motor[br] = 0;
+			motor[bl] = 0;
+		}
+
 		if(joystick.joy1_TopHat == pov_north){
 			servo[lift1] = ServoValue[lift1] -1;
 			servo[lift2] = ServoValue[lift2] +1;

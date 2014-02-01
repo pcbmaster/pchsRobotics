@@ -25,6 +25,9 @@
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 #include "HolonomicAutonomousDrives.c"
 
+int highAValue;
+int highBValue;
+
 void initializeRobot()
 {
 	servo[cubeLiftServoA] = ServoValue[cubeLiftServoA];
@@ -34,6 +37,9 @@ void initializeRobot()
 
 	servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] - 36;
 	servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] + 36;
+
+	highAValue = ServoValue[cubeLiftServoA];
+	highBValue = ServoValue[cubeLiftServoB];
 
 	wait1Msec(500);
 
@@ -117,7 +123,7 @@ task main()
 
 	waitForStart(); // Wait for the beginning of autonomous phase.
 
-	StartTask(playMusic);
+	//StartTask(playMusic);
 
 	//- = up on lift
 
@@ -127,7 +133,7 @@ task main()
 	motor[liftA] = 0;
 	motor[liftB] = 0;
 
-	driveForward(1200);
+	driveForward(1100);
 
 	servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] + 86;
 	servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] - 86;
@@ -136,19 +142,24 @@ task main()
 
 	//possibly lower arm se depende
 
-	driveBackward(500);
+	driveBackward(200);
 
 	driveLeft(1800);
 
 	motor[liftA] = -100;
 	motor[liftB] = -100;
-	wait1Msec(2300);
+	wait1Msec(1700);
 	motor[liftA] = 0;
 	motor[liftB] = 0;
 
+	servo[cubeLiftServoA] = highAValue;
+	wait1Msec(600);
+	servo[cubeLiftServoB] = highBValue;
+	wait1Msec(600);
+
 	driveForward(800);
 	rotate(600, false);
-	driveForward(2100);
+	driveForward(1900);
 
 	while(true){
 
