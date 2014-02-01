@@ -40,6 +40,23 @@ int scaleJoystick(int n){
 	return (n / MAX_JOYSTICK)	*  100; //scale the joysticks out of 100 rather than 128
 }
 
+task raiseLowerLift(){
+	while(true){
+		if(joystick.joy2_TopHat == pov_north){
+			motor[liftA] = 100;
+			motor[liftB] = 100;
+		}
+		else if(joystick.joy2_TopHat == pov_south){
+			motor[liftA] = -100;
+			motor[liftB] = -100;
+		}
+		else{
+			motor[liftA] = 0;
+			motor[liftB] = 0;
+		}
+	}
+}
+
 
 task main()
 {
@@ -47,6 +64,8 @@ task main()
 	initializeRobot();
 
 	waitForStart();   // wait for start of tele-op phase
+
+	startTask(raiseLowerLift);
 
 	while (true)
 	{
@@ -97,26 +116,13 @@ task main()
 		}
 
 		if(joystick.joy1_Buttons == button_a){
-				motor[spinner] = 100;
+			motor[spinner] = 100;
 		}
 		else if(joystick.joy1_Buttons == button_b){
-				motor[spinner] = -100;
+			motor[spinner] = -100;
 		}
 		else{
 			motor[spinner] = 0;
-		}
-
-		if(joystick.joy2_TopHat == pov_north){
-			motor[liftA] = 100;
-			motor[liftB] = 100;
-		}
-		else if(joystick.joy2_TopHat == pov_south){
-			motor[liftA] = -100;
-			motor[liftB] = -100;
-		}
-		else{
-			motor[liftA] = 0;
-			motor[liftB] = 0;
 		}
 
 		if(joystick.joy2_Buttons == button_a){
@@ -124,21 +130,21 @@ task main()
 		}
 		else if(joystick.joy2_Buttons == button_b){
 			motor[sweeper] = -50;
-		} else{
+			} else{
 			motor[sweeper] = 0;
 		}
 
 		//if(ServoValue[cubeLiftServoB] + 1 < 62){
-			if(joystick.joy2_TopHat == pov_east && ServoValue[cubeLiftServoB] > 101){
-				servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] + 1;
-				servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] - 1;
-				wait1Msec(5);
-			}
-			if(joystick.joy2_TopHat == pov_west){
-				servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] - 1;
-				servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] + 1;
-				wait1Msec(5);
-			}
+		if(joystick.joy2_TopHat == pov_east && ServoValue[cubeLiftServoB] > 101){
+			servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] + 1;
+			servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] - 1;
+			wait1Msec(5);
+		}
+		if(joystick.joy2_TopHat == pov_west){
+			servo[cubeLiftServoA] = ServoValue[cubeLiftServoA] - 1;
+			servo[cubeLiftServoB] = ServoValue[cubeLiftServoB] + 1;
+			wait1Msec(5);
+		}
 		//}
 	}
 }
