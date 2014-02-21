@@ -114,16 +114,13 @@ task main()
 		}
 
 		if(joystick.joy1_Buttons == button_y){
-			servo[servo1] = 100;
-			servo[servo2] = 100;
+			servo[servo1] = servoValue[servo1] +1;
+			servo[servo2] = servoValue[servo2] -1;
 		}
-		else if(joystick.joy1_Buttons == button_a){
-			servo[servo1] = -100;
-			servo[servo2] = -100;
+		if(joystick.joy1_Buttons == button_a){
+				servo[servo1] = servoValue[servo1] -1;
+			servo[servo2] = servoValue[servo2] +1;
 		}
-		else{
-			servo[servo1] = 0;
-			servo[servo2] = 0;
-		}
+
 	}
 }
