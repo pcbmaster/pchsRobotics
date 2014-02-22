@@ -173,6 +173,6 @@ task main()
   servoDown();
   goBackward(1000);
   goLeft(3000);
-  goForward(3500);
+  goForward(4000);
   while (true){}
 }
